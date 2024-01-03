@@ -1,0 +1,378 @@
+{
+    "1024": {
+      "code": "AT1",
+      "desc": "Attack home"
+    },
+    "1025": {
+      "code": "CR1",
+      "desc": "Corner home"
+    },
+    "1026": {
+      "code": "DAT1",
+      "desc": "Dangerous attack Home"
+    },
+    "1027": {
+      "code": "DFK1",
+      "desc": "Dangerous free kick Home"
+    },
+    "1028": {
+      "code": "FK1",
+      "desc": "Free kick Home"
+    },
+    "1029": {
+      "code": "Score1",
+      "desc": "Goal Home"
+    },
+    "1030": {
+      "code": "CGOAL1",
+      "desc": "Cancel goal Home"
+    },
+    "1031": {
+      "code": "PEN1",
+      "desc": "Penalty Home"
+    },
+    "1032": {
+      "code": "RC1",
+      "desc": "Red card Home"
+    },
+    "1034": {
+      "code": "YC1",
+      "desc": "Yellow card Home"
+    },
+    "1039": {
+      "code": "SHG1",
+      "desc": "Shot on target Home"
+    },
+    "1040": {
+      "code": "SHB1",
+      "desc": "Shot off target Home"
+    },
+    "1041": {
+      "code": "SHW1",
+      "desc": "Shot woodwork Home"
+    },
+    "1042": {
+      "code": "F1",
+      "desc": "Foul Home"
+    },
+    "1043": {
+      "code": "O1",
+      "desc": "Offside Home"
+    },
+    "1044": {
+      "code": "KO1",
+      "desc": "Kickoff Home"
+    },
+    "1045": {
+      "code": "YRC1",
+      "desc": "Yellow/red card Home"
+    },
+    "1046": {
+      "code": "CYC_RC1",
+      "desc": "Cancel yellow/red card Home"
+    },
+    "1047": {
+      "code": "CRC1",
+      "desc": "Cancel red card Home"
+    },
+    "1048": {
+      "code": "CYC1",
+      "desc": "Cancel yellow card Home"
+    },
+    "1049": {
+      "code": "CPEN1",
+      "desc": "Cancel penalty Home"
+    },
+    "1050": {
+      "code": "CCR1",
+      "desc": "Cancel corner Home"
+    },
+    "1051": {
+      "code": "SAFE1",
+      "desc": "Safe Home"
+    },
+    "1052": {
+      "code": "DAN1",
+      "desc": "Danger Home"
+    },
+    "1053": {
+      "code": "GK1",
+      "desc": "Goal kick Home"
+    },
+    "1054": {
+      "code": "TI1",
+      "desc": "Throw in Home"
+    },
+    "1055": {
+      "code": "SUB1",
+      "desc": "Substitution Home"
+    },
+    "1058": {
+      "code": "BLOCKED1",
+      "desc": "Shot blocked Home"
+    },
+    "1059": {
+      "code": "RPEN1",
+      "desc": "Retake penalty Home"
+    },
+    "1060": {
+      "code": "MPEN1",
+      "desc": "Missed penalty Home"
+    },
+    "1062": {
+      "code": "PPEN1",
+      "desc": "Possible Penalty Home"
+    },
+    "1064": {
+      "code": "BREAKAWAY1",
+      "desc": "Breakaway Home"
+    },
+    "1065": {
+      "code": "CONF_GOAL1",
+      "desc": "Goal confirmation Home"
+    },
+    "1066": {
+      "code": "PCR1",
+      "desc": "Possible corner Home"
+    },
+    "1067": {
+      "code": "NCR1",
+      "desc": "No corner Home"
+    },
+    "1068": {
+      "code": "CONF_YC1",
+      "desc": "Yellow card confirmed Home"
+    },
+    "1069": {
+      "code": "CONF_YC_RC1",
+      "desc": "Yellow/red card confirmed Home"
+    },
+    "1070": {
+      "code": "CONF_RC1",
+      "desc": "Red card confirmed Home"
+    },
+    "1071": {
+      "code": "PFK1",
+      "desc": "Possible free kick Home"
+    },
+    "1072": {
+      "code": "NEXT_PEN1",
+      "desc": "Penalty Shootout Home Team turn"
+    },
+    "1073": {
+      "code": "PTI1",
+      "desc": "Possible throw-in Home"
+    },
+    "1074": {
+      "code": "SAFE_POSS1",
+      "desc": "Safe - ball position Home"
+    },
+    "1075": {
+      "code": "ATT_POSS1",
+      "desc": "Attack - ball position Home"
+    },
+    "1076": {
+      "code": "DANG_POSS1",
+      "desc": "Danger - ball position Home"
+    },
+    "1080": {
+      "code": "PLAYER_INJURED1",
+      "desc": "Player injured Home"
+    },
+    "2048": {
+      "code": "AT2",
+      "desc": "Attack Away"
+    },
+    "2049": {
+      "code": "CR2",
+      "desc": "Corner Away"
+    },
+    "2050": {
+      "code": "DAT2",
+      "desc": "Dangerous attack Away"
+    },
+    "2051": {
+      "code": "DFK2",
+      "desc": "Dangerous free kick Away"
+    },
+    "2052": {
+      "code": "FK2",
+      "desc": "Free kick Away"
+    },
+    "2053": {
+      "code": "Score2",
+      "desc": "Goal Away"
+    },
+    "2054": {
+      "code": "CGOAL2",
+      "desc": "Cancel goal Away"
+    },
+    "2055": {
+      "code": "PEN2",
+      "desc": "Penalty Away"
+    },
+    "2056": {
+      "code": "RC2",
+      "desc": "Red card Away"
+    },
+    "2058": {
+      "code": "YC2",
+      "desc": "Yellow card Away"
+    },
+    "2063": {
+      "code": "SHG2",
+      "desc": "Shot on target Away"
+    },
+    "2064": {
+      "code": "SHB2",
+      "desc": "Shot off target Away"
+    },
+    "2065": {
+      "code": "SHW2",
+      "desc": "Shot woodwork Away"
+    },
+    "2066": {
+      "code": "F2",
+      "desc": "Foul Away"
+    },
+    "2067": {
+      "code": "O2",
+      "desc": "Offside Away"
+    },
+    "2068": {
+      "code": "KO2",
+      "desc": "Kickoff Away"
+    },
+    "2069": {
+      "code": "YRC2",
+      "desc": "Yellow/red card Away"
+    },
+    "2070": {
+      "code": "CYC_RC2",
+      "desc": "Cancel yellow/red card Away"
+    },
+    "2071": {
+      "code": "CRC2",
+      "desc": "Cancel red card Away"
+    },
+    "2072": {
+      "code": "CYC2",
+      "desc": "Cancel yellow card Away"
+    },
+    "2073": {
+      "code": "CPEN2",
+      "desc": "Cancel penalty Away"
+    },
+    "2074": {
+      "code": "CCR2",
+      "desc": "Cancel corner Away"
+    },
+    "2075": {
+      "code": "SAFE2",
+      "desc": "Safe Away"
+    },
+    "2076": {
+      "code": "DAN2",
+      "desc": "Danger Away"
+    },
+    "2077": {
+      "code": "GK2",
+      "desc": "Goal kick Away"
+    },
+    "2078": {
+      "code": "TI2",
+      "desc": "Throw in Away"
+    },
+    "2079": {
+      "code": "SUB2",
+      "desc": "Substitution Away"
+    },
+    "2082": {
+      "code": "BLOCKED2",
+      "desc": "Shot blocked Away"
+    },
+    "2083": {
+      "code": "RPEN2",
+      "desc": "Retake penalty Away"
+    },
+    "2084": {
+      "code": "MPEN2",
+      "desc": "Missed penalty Away"
+    },
+    "2086": {
+      "code": "PPEN2",
+      "desc": "Possible Penalty Away"
+    },
+    "2088": {
+      "code": "BREAKAWAY2",
+      "desc": "Breakaway Away"
+    },
+    "2089": {
+      "code": "CONF_GOAL2",
+      "desc": "Goal confirmation Away"
+    },
+    "2090": {
+      "code": "PCR2",
+      "desc": "Possible corner Away"
+    },
+    "2091": {
+      "code": "NCR2",
+      "desc": "No corner Away"
+    },
+    "2092": {
+      "code": "CONF_YC2",
+      "desc": "Yellow card confirmed Away"
+    },
+    "2093": {
+      "code": "CONF_YC_RC2",
+      "desc": "Yellow/red card confirmed Away"
+    },
+    "2094": {
+      "code": "CONF_RC2",
+      "desc": "Red card confirmed Away"
+    },
+    "2095": {
+      "code": "PFK2",
+      "desc": "Possible free kick Away"
+    },
+    "2096": {
+      "code": "NEXT_PEN2",
+      "desc": "Penalty Shootout Away Team turn"
+    },
+    "2097": {
+      "code": "PTI2",
+      "desc": "Posible Throw in Away"
+    },
+    "2098": {
+      "code": "SAFE_POSS2",
+      "desc": "Safe - ball position Away"
+    },
+    "2099": {
+      "code": "ATT_POSS2",
+      "desc": "Attack - ball position Away"
+    },
+    "2100": {
+      "code": "DANG_POSS2",
+      "desc": "Danger - ball position Away"
+    },
+    "2104": {
+      "code": "PLAYER_INJURED2",
+      "desc": "Player injured Away"
+    },
+    "11": {
+      "code": "Start_1st_half",
+      "desc": "Start 1st half, kickoff"
+    },
+    "1": {
+      "code": "Stop_1st_half",
+      "desc": "Stop 1st half"
+    },
+    "12": {
+      "code": "Start_2nd_half",
+      "desc": "Start 2nd half, kickoff"
+    },
+    "3": {
+      "code": "Stop_2nd_half",
+      "desc": "Stop 2nd half"
+    }
+  }
