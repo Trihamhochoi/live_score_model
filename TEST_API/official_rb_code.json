@@ -359,9 +359,13 @@
       "code": "PLAYER_INJURED2",
       "desc": "Player injured Away"
     },
+    "10": {
+      "code": "Start_1st_half",
+      "desc": "Start 1st half home, kickoff"
+    },
     "11": {
       "code": "Start_1st_half",
-      "desc": "Start 1st half, kickoff"
+      "desc": "Start 1st half away, kickoff"
     },
     "1": {
       "code": "Stop_1st_half",
@@ -369,7 +373,11 @@
     },
     "12": {
       "code": "Start_2nd_half",
-      "desc": "Start 2nd half, kickoff"
+      "desc": "Start 2nd half home, kickoff"
+    },
+    "13": {
+      "code": "Start_2nd_half",
+      "desc": "Start 2nd half away, kickoff"
     },
     "3": {
       "code": "Stop_2nd_half",

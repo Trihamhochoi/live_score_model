@@ -1,5 +1,5 @@
 import os.path
-from live_data_format_adjust import Engine
+from live_data_api_engine import Engine
 from live_score_model_for_api import LiveScore_Model
 import pickle
 import pandas as pd
@@ -7,7 +7,9 @@ import math
 from tqdm import tqdm
 from pprint import pprint
 import json
-
+import numpy as np
+import time
+import logging
 # K.O Time: 09:00 PM
 # League: TUNISIAN LEAGUE 2
 # Match: CS Hammam Lif -vs- ES Hammam Sousse
@@ -36,9 +38,16 @@ import json
 # TV/IPTV: iptv/Not Set
 # Provider: TV/RB2tv
 
+# K.O Time: 06:30 PM
+# League: SPAIN PRIMERA FEDERACION
+# Match: Recreativo Granada -vs- UD Melilla
+# Match ID: 77506141
+# TV/IPTV:
+# Provider: RB2
+
 # ------------- INITIALIZATION ---------------------
 
-match_id_ = 78534882 #78378471 #77422531 #78329100 #78327701 #78088596 #77854937 #77926259 #77623787 #77592032
+match_id_ = 77506141 #78534882  # 78378471 #77422531 #78329100 #78327701 #78088596 #77854937 #77926259 #77623787 #77592032
 position = 0
 event_code_ids = []
 dest_path = r'C:\Users\user2\PycharmProjects\Livescore_model\TEST_API\api_folder'
@@ -49,7 +58,6 @@ with open(pickle_file_path, 'rb') as file:
     rf_model = pickle.load(file)
 # Create Live model
 live_model = LiveScore_Model(model=rf_model)
-
 
 # ------------- CALL API FOR LIVE MATCH -------------
 json_file_path = r'C:\Users\user2\PycharmProjects\Livescore_model\TEST_API\official_rb_code.json'
@@ -68,13 +76,29 @@ is_running = match.is_running
 
 js_adm, final_output = match.get_AB_timer_metadata(isFT=True, is_live=True)
 
+# for i in range(10):
 while is_running:
-#for i in range(10):
+
     log_api = match.get_logs_for_current_match()
-    js_adm, final_output = match.get_AB_timer_metadata(isFT=True,is_live=True)
-    if log_api is not None:
+    period = log_api['ingame_Timer']['in_game_period']
+    # js_adm, final_output = match.get_AB_timer_metadata(isFT=True,is_live=True)
+    # time.sleep(0.2)
+
+    if period in [0, 11, 22]:
+        print(f'--- It remains {final_output["Timer"]["min"]}'
+              f' min {final_output["Timer"]["sec"]} secs before staring games\n\n')
+
+    elif period in [1, 2]:
+        # # ---- EXAMINE WHICH THE EVENT CODE IS COUNTED -------
+        # keys = list(log_api['Event'].keys())
+        # diff_event_counter = np.array(list(log_api['Event'].values())) - np.array(list(log_api['LastEvent'].values()))
+        # timer = {key: log_api['ingame_Timer'][key] for key in ['in_game_period', 'min', 'sec']}
+        # event_change = {keys[i]: v for i, v in enumerate(diff_event_counter) if v > 0}
+        # final = timer.copy()
+        # final.update(event_change)
+        # if len(event_change) > 0:
+        #     print(f'--- There is update event: {final}')
         try:
-            match.save_json(is_live_match=True)
             # Apply ability for the match
             ability = live_model.predict_expected_ability(input_api_json=log_api)
         except KeyError as e:
@@ -83,17 +107,15 @@ while is_running:
 
         finally:
             is_running = match.is_running
-    else:
-        print(f'--- Game has been not started yet, It remains around {final_output["Timer"]["LiveTimer"]} seconds before staring games\n\n')
-
 
 # ------------- SAVE LOG FILE FOR LIVE MATCH -------------
 try:
-    #pprint(match.full_rb_events)
+    # pprint(match.full_rb_events)
+    match.save_json(is_live_match=True)
     file_name = match.full_path[0]
     full_ability_df = pd.DataFrame(live_model.ability_match)
     full_match_ab_df = pd.DataFrame(data=live_model.full_match_sep)
-    #full_match_atk_rd = pd.concat(live_model.full_atk_rd_match)
+    # full_match_atk_rd = pd.concat(live_model.full_atk_rd_match)
 except Exception as e:
     raise e
 else:

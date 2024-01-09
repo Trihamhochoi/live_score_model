@@ -1,0 +1,7 @@
+[INFO | user2 | 2024-01-04 17:29:46] - >>>> Log file was created in C:\Users\user2\PycharmProjects\Livescore_model\TEST_API\api_folder\77506141\live_77506141_log.txt
+[INFO | user2 | 2024-01-04 17:29:46] - ---- Starting to fetch data of match id: 77506141
+[INFO | user2 | 2024-01-04 19:21:41] - >>>> Finish the game
+[INFO | user2 | 2024-01-04 19:21:48] - ---- 
+Dictionary saved to:
+C:\Users\user2\PycharmProjects\Livescore_model\TEST_API\api_folder\77506141\live_match_api_77506141.json
+C:\Users\user2\PycharmProjects\Livescore_model\TEST_API\api_folder\77506141\live_match_event_info.json

@@ -29,11 +29,12 @@ class Timer:
         # Convert datetime
         date_parts = target_time.split('.')
         date_format = "%Y-%m-%dT%H:%M:%S"
-        self.target_time = datetime.strptime(date_parts[0], date_format) + timedelta(hours=utc_offset)
-        return self.target_time
+        target_time_convert = datetime.strptime(date_parts[0], date_format) + timedelta(hours=utc_offset)
+        return target_time_convert
 
     def create_time_counter(self, event_code_id=None):
-        current_time = datetime.now().replace(microsecond=0)
+        current_time = datetime.now()
+        #print("current time:", current_time)
         time_difference = None
 
         # UPDATE PERIOD AND KICK-OFF TIME

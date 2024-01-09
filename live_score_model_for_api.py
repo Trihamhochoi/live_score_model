@@ -603,7 +603,7 @@ class LiveScore_Model:
         # ----------------------------------------------------------------- #
         # DIFFERENT FIELD BUT TYPE THROW IN => THE OPPONENT GET THE BALL
         elif event_dictionary['field'] != self.attacking_round[-1]['field'] and event_dictionary['type'] in ['TI']:
-            # Update the in/de percent of this attacking round
+            # Update the in/de percentage of this attacking round
             self.ability_json['field'] = event_dictionary['field']
             self.ability_json['home_p_in/de'] = self._get_next_in_de_percent(home=True)
             self.ability_json['away_p_in/de'] = self._get_next_in_de_percent(home=False)
@@ -612,12 +612,12 @@ class LiveScore_Model:
             self.ability_json['home_perf_coef'] = self._get_next_perf_per(home=True)
             self.ability_json['away_perf_coef'] = self._get_next_perf_per(home=False)
         else:
-            # Update the in/de percent of this attacking round
+            # Update the in/de percentage of this attacking round
             self.ability_json['field'] = event_dictionary['field']
             self.ability_json['home_p_in/de'] = self._get_next_in_de_percent(home=True)
             self.ability_json['away_p_in/de'] = self._get_next_in_de_percent(home=False)
 
-            # Update the efficient percent at that moment
+            # Update the efficient percentage at that moment
             self.ability_json['home_perf_coef'] = self._get_next_perf_per(home=True)
             self.ability_json['away_perf_coef'] = self._get_next_perf_per(home=False)
 
@@ -630,13 +630,15 @@ class LiveScore_Model:
         Please refer the workflow for more details
 
         :param input_api_json:
-        :return: ability_dictionary
+        :return: Ability_dictionary
         """
         # TIMER
         timer = input_api_json['ingame_Timer']
+
         # CURRENT EVENT
         home_cur = {k: v for k, v in input_api_json['Event'].items() if '1' in k}
         away_cur = {k: v for k, v in input_api_json['Event'].items() if '2' in k}
+
         # Re-order the event in second
         order_key_h = ['SHG1', 'SHW1', 'Score1', 'SAFE1', 'TI1', 'AT1', 'DAT1', 'DAN1', 'FK1', 'DFK1', 'CR1']
         order_key_a = ['SHG2', 'SHW2', 'Score2', 'SAFE2', 'TI2', 'AT2', 'DAT2', 'DAN2', 'FK2', 'DFK2', 'CR2']

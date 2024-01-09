@@ -1,0 +1,1 @@
+[INFO | user2 | 2024-01-04 16:00:20] - >>>> Log file was created in C:\Users\user2\PycharmProjects\Livescore_model\TEST_API\api_folder\78242439\live_78242439_log.txt
