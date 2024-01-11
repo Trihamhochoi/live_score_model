@@ -1,0 +1,12 @@
+[INFO | user2 | 2024-01-10 14:53:34] - >>>> Log file was created in C:\Users\user2\PycharmProjects\Livescore_model\TEST_API\api_folder\78955380\live_78955380_log.txt
+[INFO | user2 | 2024-01-10 14:53:35] - ---- Starting to fetch data of match id: 78955380
+[INFO | user2 | 2024-01-10 14:53:56] - ---- 
+Dictionary saved to:
+C:\Users\user2\PycharmProjects\Livescore_model\TEST_API\api_folder\78955380\past_match_api_78955380.json
+C:\Users\user2\PycharmProjects\Livescore_model\TEST_API\api_folder\78955380\past_match_event_info.json
+[INFO | user2 | 2024-01-10 16:32:28] - >>>> Log file was created in C:\Users\user2\PycharmProjects\Livescore_model\TEST_API\api_folder\78955380\live_78955380_log.txt
+[INFO | user2 | 2024-01-10 16:32:28] - ---- Starting to fetch data of match id: 78955380
+[INFO | user2 | 2024-01-10 16:32:36] - ---- 
+Dictionary saved to:
+C:\Users\user2\PycharmProjects\Livescore_model\TEST_API\api_folder\78955380\past_match_api_78955380.json
+C:\Users\user2\PycharmProjects\Livescore_model\TEST_API\api_folder\78955380\past_match_event_info.json

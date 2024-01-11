@@ -45,6 +45,7 @@ import logging
 # TV/IPTV:
 # Provider: RB2
 
+
 # ------------- INITIALIZATION ---------------------
 
 match_id_ = 77506141 #78534882  # 78378471 #77422531 #78329100 #78327701 #78088596 #77854937 #77926259 #77623787 #77592032
@@ -74,7 +75,7 @@ match = Engine(match_id=match_id_,
 # TEST LIVE MATCH
 is_running = match.is_running
 
-js_adm, final_output = match.get_AB_timer_metadata(isFT=True, is_live=True)
+final_output = match.get_AB_timer_metadata(isFT=True, is_live=True)
 
 # for i in range(10):
 while is_running:
@@ -84,20 +85,15 @@ while is_running:
     # js_adm, final_output = match.get_AB_timer_metadata(isFT=True,is_live=True)
     # time.sleep(0.2)
 
-    if period in [0, 11, 22]:
-        print(f'--- It remains {final_output["Timer"]["min"]}'
-              f' min {final_output["Timer"]["sec"]} secs before staring games\n\n')
-
+    if period == 0:
+        print(f'--- It remains {final_output["Timer"]["min"]} mins {final_output["Timer"]["sec"]} secs before staring games\n\n')
+    elif period == 11:
+        print(f'--- The game is in break-time: {final_output["Timer"]["min"]} mins {final_output["Timer"]["sec"]} secs before staring games\n\n')
+        time.sleep(60*3)
+    elif period == 22:
+        print('Finish the game')
+        is_running = False
     elif period in [1, 2]:
-        # # ---- EXAMINE WHICH THE EVENT CODE IS COUNTED -------
-        # keys = list(log_api['Event'].keys())
-        # diff_event_counter = np.array(list(log_api['Event'].values())) - np.array(list(log_api['LastEvent'].values()))
-        # timer = {key: log_api['ingame_Timer'][key] for key in ['in_game_period', 'min', 'sec']}
-        # event_change = {keys[i]: v for i, v in enumerate(diff_event_counter) if v > 0}
-        # final = timer.copy()
-        # final.update(event_change)
-        # if len(event_change) > 0:
-        #     print(f'--- There is update event: {final}')
         try:
             # Apply ability for the match
             ability = live_model.predict_expected_ability(input_api_json=log_api)

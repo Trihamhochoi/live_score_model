@@ -9,7 +9,6 @@ import math
 from tqdm import tqdm
 import json
 
-
 # ------------- INITIALIZATION ---------------------
 # TestCase
 # K.O Time: 09:30 PM
@@ -19,7 +18,8 @@ import json
 # TV/IPTV:
 # Provider: RB2
 
-match_id_ = 78534882 #77433048  # 78041432  # 77994064 #78041654 #78041657 #78041654 #77304851  # 77926259  # 77623787 #77592032
+
+match_id_ = 78955380  # 78534882 #77433048  # 78041432  # 77994064 #78041654 #78041657 #78041654 #77304851  # 77926259  # 77623787 #77592032
 event_code_ids = []
 position = 0
 dest_path = r'C:\Users\user2\PycharmProjects\Livescore_model\TEST_API\api_folder'
@@ -44,8 +44,8 @@ match = Engine(match_id=match_id_,
                event_position=position,
                destination_dir=dest_path)
 
-js_adm, final_output = match.get_AB_timer_metadata(isFT=True,
-                                                   is_live=False)
+final_output = match.get_AB_timer_metadata(isFT=True,
+                                           is_live=False)
 
 # TEST PAST MATCH
 full_log_apis = match.get_logs_for_past_match(isFT=True)
@@ -58,9 +58,8 @@ current_atk_round = None
 full_ability = None
 for dict_sec in tqdm(full_log_apis, desc="Starting to execute the api...."):
     ability = live_model.predict_expected_ability(input_api_json=dict_sec)
-                                                  # attacking_round_list=current_atk_round,
-                                                  # ability_fullmatch_list=full_ability
-
+    # attacking_round_list=current_atk_round,
+    # ability_fullmatch_list=full_ability
 
     # full_ability = ability_full_match
     # current_atk_round = atk_round

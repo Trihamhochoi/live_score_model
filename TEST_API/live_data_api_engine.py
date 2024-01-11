@@ -1,6 +1,6 @@
 # -------------- IMPORT NECESSARY PACKAGES -------------- #
 import math
-from live_timer import Timer
+# from live_timer import Timer
 import requests
 import json
 from datetime import datetime, timedelta
@@ -14,6 +14,123 @@ from pprint import pprint
 import getpass
 import logging
 import copy
+
+
+# -------------- DEFINE LIVE TIMER --------------#
+class Timer:
+    def __init__(self):
+        self.target_time = None
+        self.period = 0  # Update again
+
+    def _get_utc_offset(self):
+        # Get the time zone from the datetime object
+        dt = datetime.now().replace(microsecond=0)
+        current_timezone = dt.astimezone().tzinfo
+
+        # Get the UTC offset as a timedelta
+        utc_offset = current_timezone.utcoffset(dt)
+
+        # Extract hours and minutes from the UTC offset timedelta
+        offset_hours, _ = divmod(utc_offset.seconds // 60, 60)
+
+        # Return the UTC offset as integers
+        return offset_hours + 4
+
+    def convert_target_time(self, target_time: str):
+        # Get the utc offset
+        utc_offset = self._get_utc_offset()
+
+        # Convert datetime
+        date_parts = target_time.split('.')
+        date_format = "%Y-%m-%dT%H:%M:%S"
+        target_time_convert = datetime.strptime(date_parts[0], date_format) + timedelta(hours=utc_offset)
+        return target_time_convert
+
+    def create_time_counter(self, event_code_id=None):
+        current_time = datetime.now()
+        # print("current time:", current_time)
+        time_difference = None
+
+        # UPDATE PERIOD AND KICK-OFF TIME
+        if event_code_id is not None:
+            # Start_1st_half
+            if event_code_id in [10, 11]:
+                # Calculate the kick-off time
+                self.target_time = current_time
+                self.period = 1
+                time_difference = int((current_time - self.target_time).total_seconds())
+                min_ = time_difference // 60
+                sec_ = time_difference % 60
+                in_game_timer = {'in_game_period': 1,
+                                 'in_game_timer': time_difference,
+                                 'min': min_,
+                                 'sec': sec_}
+
+                return in_game_timer
+
+            # Stop_1st_half
+            elif event_code_id == 1:
+                self.period = 11
+                time_difference = 2700
+                min_ = time_difference // 60
+                sec_ = time_difference % 60
+                in_game_timer = {'in_game_period': 1,
+                                 'in_game_timer': time_difference,
+                                 'min': min_,
+                                 'sec': sec_}
+                return in_game_timer
+
+            # Start_2nd_half
+            elif event_code_id in [12, 13]:
+                # Re-calculate the kick-off time of 2nd half
+                self.target_time = current_time
+                self.period = 2
+                time_difference = int((current_time - self.target_time).total_seconds()) + 2700
+                min_ = time_difference // 60
+                sec_ = time_difference % 60
+                in_game_timer = {'in_game_period': 2,
+                                 'in_game_timer': time_difference,
+                                 'min': min_,
+                                 'sec': sec_}
+
+                return in_game_timer
+
+            # Stop_2nd_half
+            elif event_code_id == 3:
+                self.period = 22
+                time_difference = 5400
+                min_ = time_difference // 60
+                sec_ = time_difference % 60
+                in_game_timer = {'in_game_period': 2,
+                                 'in_game_timer': time_difference,
+                                 'min': min_,
+                                 'sec': sec_}
+                return in_game_timer
+            else:
+                raise Exception("There is error is Timer")
+
+        else:
+            # Calculate Time difference and min and sec
+            if self.period in [0, 11, 22]:
+                in_game_timer = {'in_game_period': self.period,
+                                 'in_game_timer': time_difference,
+                                 'min': None,
+                                 'sec': None}
+                return in_game_timer
+
+            elif self.period == 1:
+                time_difference = int((current_time - self.target_time).total_seconds())
+            elif self.period == 2:
+                time_difference = int((current_time - self.target_time).total_seconds()) + 2700
+
+            min_ = time_difference // 60
+            sec_ = time_difference % 60
+            in_game_timer = {'in_game_period': self.period,
+                             'in_game_timer': time_difference,
+                             'min': min_,
+                             'sec': sec_}
+
+            return in_game_timer
 
 
 # -------------- DEFINE CLASS FOR API ENGINE -------------- #
@@ -46,7 +163,7 @@ class Engine:
 
         # LIVE MATCH
         # build Timer to calculate
-        self.Timer = Timer()
+        self.live_timer = Timer()
         self.full_rb_events = []
         self.event_data_ft = None
         self.event_data_ht = None
@@ -130,6 +247,7 @@ class Engine:
     # ------------------ FUNCTION TO STRUCTURE THE ADMIN DATA ----------------------
     def get_AB_timer_metadata(self, isFT=True, is_live: bool = True):
         url = self.url_oddsfeed + f'/GetLiveMatchAbility?isFT={isFT}&matchId={self.match_id}'
+        # print(f"Starting to fetch the API:{url}")
         response = requests.get(url)
         js_admin = response.json()
 
@@ -148,10 +266,11 @@ class Engine:
                  "HomeTeamId": js_admin["matchLeague"]["homeId"],
                  "AwayTeamId": js_admin["matchLeague"]["awayId"]}
 
+
         # -- TIMER --
         # Get starting time
         match_details = js_admin['matchLeague']
-        target_time = self.Timer.convert_target_time(match_details['liveTimer'])
+        target_time = self.live_timer.convert_target_time(target_time=str(match_details['liveTimer']))
 
         # Get the current time
         current_time = datetime.now()
@@ -177,20 +296,19 @@ class Engine:
         obj_tz = pytz.timezone(local_tz).localize(target_time)
         kick_off_time = obj_tz.strftime("%Y-%m-%dT%H:%M:%S %z")
 
-        Timer = {'KickoffTime': kick_off_time,
-                 "LiveTimer": math.floor(ig_seconds),
-                 'min': math.floor(ig_seconds // 60),
-                 'sec': math.floor(ig_seconds % 60),
-                 "LivePeriod": js_admin["matchLeague"]["livePeriod"],
-                 'isRunning': True if js_admin["matchLeague"]['eventStatus'] == 'running' else False
-                 }
+        l_timer = {'KickoffTime': kick_off_time,
+                   "LiveTimer": math.floor(ig_seconds),
+                   'min': math.floor(ig_seconds // 60),
+                   'sec': math.floor(ig_seconds % 60),
+                   "LivePeriod": match_details["livePeriod"],
+                   'isRunning': True if match_details['eventStatus'] == 'running' else False}
 
         # Create a new dictionary with the desired structure
         final_data = {'Ability': Ability,
                       'Match': Match,
-                      'Timer': Timer}
+                      'Timer': l_timer}
 
-        return js_admin, final_data
+        return final_data
 
     # ------------------ FUNCTION TO GET RUNNING BALL EVENT ----------------------
     def get_rb_events(self):
@@ -255,7 +373,7 @@ class Engine:
     # ------------------ FUNCTION TO CALL API FOR PAST MATCH ----------------------
     def get_logs_for_past_match(self, isFT: bool):
         # --- CREATE ADMIN DATA ---
-        js_admin, admin_data = self.get_AB_timer_metadata(isFT=isFT, is_live=False)
+        admin_data = self.get_AB_timer_metadata(isFT=isFT, is_live=False)
 
         # --- Get Running ball event ---
         js_rb = self.get_rb_events()
@@ -405,7 +523,7 @@ class Engine:
 
         # ------------- INITIALIZATION -----------------------
         # CREATE ADMIN DATA
-        js_admin, admin_data = self.get_AB_timer_metadata(is_live=True)
+        admin_data = self.get_AB_timer_metadata(is_live=True)
 
         # Create the event counter and get last event
         if len(self.full_api_ls) > 0:
@@ -420,7 +538,7 @@ class Engine:
         js_rb = self.get_rb_events()
 
         # format js_rb
-        selected_keys = ['eventNumber', 'eventCodeId', #'homeScore', 'awayScore', 'timestamp',
+        selected_keys = ['eventNumber', 'eventCodeId',  # 'homeScore', 'awayScore', 'timestamp',
                          'sportsTickerStateId', 'min', 'sec', 'eventCode_Desc']
 
         js_rb = [get_keys(dictionary=e_dict, keys=selected_keys) for e_dict in js_rb]
@@ -437,7 +555,7 @@ class Engine:
 
         else:  # len(self.full_rb_events) >= 0 a>0 and b=0 , a>0 and b>0, a=0 and b>0
             if len(js_rb) == 0:
-                in_game_timer = self.Timer.create_time_counter(event_code_id=None)
+                in_game_timer = self.live_timer.create_time_counter(event_code_id=None)
 
                 # create final output
                 rb_data = {'ingame_Timer': in_game_timer,
@@ -450,11 +568,11 @@ class Engine:
 
                 # If Trigger some code id => Update Target time
                 if len(update_ls) > 0:
-                    in_game_timer = self.Timer.create_time_counter(event_code_id=update_ls[0])
-                    print(f"---Target time is updated to {self.Timer.target_time}\t Update list: {update_ls}\t Ingame timer: {in_game_timer}")
+                    in_game_timer = self.live_timer.create_time_counter(event_code_id=update_ls[0])
+                    print(f"---Target time is updated to {self.live_timer.target_time}\t Update list: {update_ls}\t Ingame timer: {in_game_timer}")
                 else:
-                    in_game_timer = self.Timer.create_time_counter(event_code_id=None)
-                    #print(f"---Ingame timer: {in_game_timer}")
+                    in_game_timer = self.live_timer.create_time_counter(event_code_id=None)
+                    # print(f"---Ingame timer: {in_game_timer}")
 
                 # ----------- UPDATE RUNNING BALL EVENT COUNTER ---------------
                 # define some code should be eliminated
@@ -543,51 +661,45 @@ class Engine:
 
 
 if __name__ == '__main__':
-    match_id_ = 78242439  # 77854937 #78228478  # 78092138 #78041432  # 77994064 #78041654 #78041657 #78041654 #77304851  # 77926259  # 77623787 #77592032
-    event_code_ids = []
+    match_id_ = 77506141  # 78534882  # 78378471 #77422531 #78329100 #78327701 #78088596 #77854937 #77926259 #77623787 #77592032
     position = 0
+    event_code_ids = []
+    dest_path = r'C:\Users\user2\PycharmProjects\Livescore_model\TEST_API\api_folder'
 
-    json_file_path = r'official_rb_code.json'
+    # ------------- CALL API FOR LIVE MATCH -------------
+    json_file_path = r'C:\Users\user2\PycharmProjects\Livescore_model\TEST_API\official_rb_code.json'
     # Open the file and load the JSON data
     with open(json_file_path, 'r') as json_file:
         rb_code = json.load(json_file)
-    dest_path = r'C:\Users\user2\PycharmProjects\Livescore_model\TEST_API\api_folder'
+
     match = Engine(match_id=match_id_,
                    event_code_ids=event_code_ids,
                    selected_ids=rb_code,
                    event_position=position,
                    destination_dir=dest_path)
 
-    js_adm, final_output = match.get_AB_timer_metadata(isFT=True)
-
-    # get rb event
-    # rb_data = match.get_rb_events()
-    # pprint(rb_data)
-    # pprint(final_output)
-
-    # # TEST PAST MATCH
-    # log_api = match.get_logs_for_past_match(isFT=True)
-
     # TEST LIVE MATCH
-    is_running = True
+    is_running = match.is_running
+
+    js_adm, final_output = match.get_AB_timer_metadata(isFT=True, is_live=True)
+
+    # for i in range(10):
     # while is_running:
     for i in range(5):
+
         log_api = match.get_logs_for_current_match()
-        js_adm, final_output = match.get_AB_timer_metadata(isFT=True)
-        if log_api is not None:
+        period = log_api['ingame_Timer']['in_game_period']
+        # js_adm, final_output = match.get_AB_timer_metadata(isFT=True,is_live=True)
+        # time.sleep(0.2)
 
-            print('\n\n Live Timer:')
-            pprint(log_api['Timer'])
-            try:
-                print('\n\n In game Timer:')
-                pprint(log_api['ingame_Timer'])
-            except KeyError:
-                print(log_api)
-                break
-            finally:
-                is_running = log_api['Timer']['isRunning']
-        else:
-            print(f'Game has been not started yet, It still remains {final_output["Timer"]["min"]} mins and {final_output["Timer"]["sec"]} secs before staring games\n\n')
+        if period in [0, 11, 22]:
+            print(f'--- It remains {final_output["Timer"]["min"]} mins {final_output["Timer"]["sec"]} secs before staring games\n\n')
 
-    match.save_json(is_live_match=False)
+        elif period in [1, 2]:
+            print(log_api)
+
+        is_running = match.is_running
+
+    # ------------- SAVE LOG FILE FOR LIVE MATCH -------------
     # pprint(match.full_rb_events)
+    match.save_json(is_live_match=True)

@@ -1,0 +1,2 @@
+[INFO | user2 | 2024-01-10 17:30:26] - >>>> Log file was created in 'TEST_API\api_folder'\78935943\live_78935943_log.txt
+[INFO | user2 | 2024-01-10 17:30:27] - ---- Starting to fetch data of match id: 78935943
